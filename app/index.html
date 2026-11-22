@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rootwise Exam Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: single centered column, question-first. Boldness lives in the answer-feedback stripes; everything else stays quiet. */
+:root{
+  --bg:#f4f6f5; --surface:#ffffff; --ink:#17211f; --muted:#5b6865; --line:#dbe2e0;
+  --accent:#0d6b57; --accent-soft:#e1f0eb;
+  --good:#1f7a3f; --good-soft:#e3f3e7; --bad:#b3372b; --bad-soft:#fae6e3; --warn:#a86a00;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#101614; --surface:#172120; --ink:#e7eeec; --muted:#9aa9a5; --line:#2b3836;
+    --accent:#4cc3a3; --accent-soft:#183a32;
+    --good:#5fcf86; --good-soft:#173524; --bad:#f08a7d; --bad-soft:#3b1d1a; --warn:#e3a94a;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101614; --surface:#172120; --ink:#e7eeec; --muted:#9aa9a5; --line:#2b3836;
+  --accent:#4cc3a3; --accent-soft:#183a32;
+  --good:#5fcf86; --good-soft:#173524; --bad:#f08a7d; --bad-soft:#3b1d1a; --warn:#e3a94a;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+button{font:inherit;color:inherit}
+button:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:820px;margin:0 auto;padding:20px 18px 64px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:16px;border-bottom:1px solid var(--line);margin-bottom:24px}
+.brand{font-family:var(--display);font-weight:800;font-size:1.3rem;letter-spacing:-.02em;cursor:pointer;background:none;border:0;padding:0}
+.brand span{color:var(--accent)}
+.tag{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(1.7rem,4.5vw,2.4rem);line-height:1.12;letter-spacing:-.025em;margin:0 0 8px;text-wrap:balance}
+h2{font-family:var(--display);font-weight:700;font-size:1.15rem;margin:0 0 12px;letter-spacing:-.01em}
+.lede{color:var(--muted);max-width:62ch;margin:0 0 24px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px}
+.stack{display:grid;gap:18px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.stat b{display:block;font-family:var(--display);font-size:1.7rem;font-weight:700;font-variant-numeric:tabular-nums}
+.stat small{color:var(--muted);font-size:.82rem}
+.mods{display:grid;gap:10px}
+.mod{display:grid;grid-template-columns:minmax(120px,190px) 1fr 64px;gap:12px;align-items:center;font-size:.92rem}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:4px}
+.bar i.low{background:var(--bad)} .bar i.mid{background:var(--warn)}
+.pct{font-family:var(--mono);font-size:.82rem;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:transparent;padding:8px 14px;cursor:pointer;font-weight:500}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:.88rem}
+.chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--ink);font-weight:600}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+label.lbl{font-size:.82rem;color:var(--muted);display:block;margin-bottom:6px}
+select{font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+.btn{border:1px solid var(--accent);background:var(--accent);color:var(--surface);padding:10px 18px;border-radius:8px;font-weight:600;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.hint{font-size:.85rem;color:var(--muted)}
+/* question */
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.progress{height:4px;background:var(--line);border-radius:2px;margin-bottom:20px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent)}
+.timer{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:.95rem;padding:4px 10px;border:1px solid var(--line);border-radius:6px}
+.timer.low{color:var(--bad);border-color:var(--bad)}
+.stem{font-size:1.05rem;margin:0 0 18px;max-width:68ch}
+.stem .lab{font-family:var(--mono);font-size:.9rem;background:var(--accent-soft);padding:1px 5px;border-radius:4px}
+.opts{display:grid;gap:10px}
+.opt{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;text-align:left;width:100%;padding:12px 14px;border:1px solid var(--line);border-left:4px solid var(--line);border-radius:8px;background:var(--surface);cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt .L{font-family:var(--mono);font-weight:500;width:28px;height:28px;display:grid;place-items:center;border:1px solid var(--line);border-radius:6px;font-size:.85rem}
+.opt.sel{border-color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft)}
+.opt.sel .L{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+.opt.right{border-left-color:var(--good);background:var(--good-soft)}
+.opt.right .L{background:var(--good);color:var(--surface);border-color:var(--good)}
+.opt.wrong{border-left-color:var(--bad);background:var(--bad-soft)}
+.opt.wrong .L{background:var(--bad);color:var(--surface);border-color:var(--bad)}
+.opt:disabled{cursor:default}
+.why{margin-top:6px;font-size:.9rem;color:var(--muted)}
+.opt.right .why,.opt.wrong .why{color:var(--ink)}
+.verdict{display:flex;align-items:center;gap:10px;margin:20px 0 10px;font-family:var(--display);font-weight:700;font-size:1.1rem}
+.pill{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;padding:3px 8px;border-radius:999px}
+.pill.good{background:var(--good-soft);color:var(--good)} .pill.bad{background:var(--bad-soft);color:var(--bad)} .pill.neutral{background:var(--accent-soft);color:var(--accent)}
+.concept{border-left:3px solid var(--accent);padding:10px 14px;background:var(--accent-soft);border-radius:0 8px 8px 0;font-size:.95rem;margin-top:12px}
+.concept b{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;display:block;color:var(--accent);margin-bottom:2px}
+.ref{font-size:.8rem;color:var(--muted);margin-top:10px}
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:22px;flex-wrap:wrap}
+.flag{background:none;border:1px solid var(--line);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:.85rem}
+.flag[aria-pressed="true"]{border-color:var(--warn);color:var(--warn)}
+.grid-nav{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.grid-nav button{width:34px;height:34px;border:1px solid var(--line);border-radius:6px;background:var(--surface);cursor:pointer;font-family:var(--mono);font-size:.8rem}
+.grid-nav button.done{background:var(--accent-soft);border-color:var(--accent)}
+.grid-nav button.cur{outline:2px solid var(--accent)}
+.grid-nav button.fl{border-color:var(--warn);color:var(--warn)}
+/* results */
+.score{font-family:var(--display);font-size:3.4rem;font-weight:800;line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.rlist{display:grid;gap:10px}
+details.ritem{border:1px solid var(--line);border-left:4px solid var(--good);border-radius:8px;background:var(--surface);padding:12px 14px}
+details.ritem.miss{border-left-color:var(--bad)}
+details.ritem summary{cursor:pointer;display:flex;gap:10px;align-items:baseline;list-style:none}
+details.ritem summary::-webkit-details-marker{display:none}
+details.ritem summary .t{flex:1;font-size:.93rem}
+.note{font-size:.78rem;color:var(--muted);border-top:1px solid var(--line);margin-top:36px;padding-top:14px}
+@media (max-width:560px){
+  .stats{grid-template-columns:1fr 1fr 1fr}
+  .stat b{font-size:1.35rem}
+  .mod{grid-template-columns:1fr 54px}
+  .mod .bar{grid-column:1 / -1;grid-row:2}
+}
+@media (prefers-reduced-motion:no-preference){
+  .progress i,.bar i{transition:width .35s ease}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <button class="brand" id="brand" type="button">Root<span>wise</span></button>
+    <span class="tag">Functional medicine certification prep · prototype</span>
+  </header>
+  <main id="app"></main>
+  <p class="note">Independent study tool. Not affiliated with or endorsed by The Institute for Functional Medicine. Sample questions are original and pending clinical review. “Rootwise” is a placeholder name.</p>
+</div>
+
+<script>
+const MODULES = ["Foundations","GI","Hormones","Biotransformation","Energy","Immune","Cardiometabolic"];
+
+const Q = [
+{id:"F1",module:"Foundations",topic:"Antecedents, triggers, mediators",diff:"Moderate",
+ stem:"A 38-year-old woman reports fatigue, joint pain, and brain fog that began 4 months after moving into a home with visible water damage. Her mother has Hashimoto thyroiditis. Labs show <span class=\"lab\">hs-CRP 6.2 mg/L</span> and elevated IL-6. In organizing her story, which element is best classified as a <em>mediator</em>?",
+ options:[
+  {t:"Her mother’s history of Hashimoto thyroiditis",w:"Family history and genetic predisposition are antecedents: factors that set the stage before illness begins."},
+  {t:"Moving into the water-damaged home",w:"The mold exposure is a trigger: the discrete event that provoked symptom onset."},
+  {t:"Ongoing elevation of inflammatory cytokines such as IL-6",w:"Correct. Mediators are the biochemical and psychosocial factors that perpetuate illness and keep symptoms going, such as cytokines, hormones, and free radicals."},
+  {t:"Her current fatigue and joint pain",w:"These are signs and symptoms, the downstream expression of dysfunction, not the factors that sustain it."}],
+ a:2, concept:"Antecedents predispose, triggers provoke, mediators perpetuate. Mediators are usually where intervention breaks the cycle.", ref:"Ref: pending clinical review"},
+
+{id:"F2",module:"Foundations",topic:"Methylation cofactors",diff:"Hard",
+ stem:"A patient homozygous for <span class=\"lab\">MTHFR C677T</span> has <span class=\"lab\">homocysteine 16 µmol/L</span>. Besides methylfolate, which nutrient is the direct cofactor for the MTHFR enzyme and has been shown to lower homocysteine specifically in TT genotypes?",
+ options:[
+  {t:"Pyridoxal-5-phosphate (B6)",w:"B6 is the cofactor for cystathionine β-synthase in the transsulfuration pathway, not for MTHFR."},
+  {t:"Riboflavin (as FAD)",w:"Correct. MTHFR is a flavoprotein; FAD is its cofactor. The C677T variant loosens FAD binding, and riboflavin supplementation lowers homocysteine and blood pressure in TT individuals."},
+  {t:"Methylcobalamin (B12)",w:"B12 is the cofactor for methionine synthase, which uses 5-MTHF downstream of MTHFR."},
+  {t:"Betaine (trimethylglycine)",w:"Betaine remethylates homocysteine through BHMT, a bypass route that does not involve MTHFR."},
+  {t:"Magnesium",w:"Magnesium supports many methyltransferases (e.g., COMT) but is not the MTHFR cofactor."}],
+ a:1, concept:"Know each enzyme’s cofactor: MTHFR → FAD (B2); methionine synthase → B12; CBS → B6; BHMT → betaine.", ref:"Ref: McNulty H, et al. Riboflavin, MTHFR genotype and blood pressure. Proc Nutr Soc. 2017."},
+
+{id:"G1",module:"GI",topic:"5R sequencing",diff:"Moderate",
+ stem:"A 52-year-old with bloating, steatorrhea, and undigested food in stool has completed an elimination diet and treatment of a parasitic infection. Stool testing shows <span class=\"lab\">fecal elastase 140 µg/g</span>. Following the 5R framework, what is the most appropriate next step?",
+ options:[
+  {t:"Reinoculate with a high-dose multistrain probiotic",w:"Reinoculation comes after digestive capacity is restored; it does not address low pancreatic output."},
+  {t:"Replace with pancreatic digestive enzymes taken with meals",w:"Correct. Fecal elastase below 200 µg/g indicates reduced exocrine pancreatic function. Replace restores digestive factors before later steps."},
+  {t:"Repair with L-glutamine and zinc carnosine",w:"Mucosal repair is appropriate but would be premature while maldigestion continues to drive symptoms."},
+  {t:"Repeat the antiparasitic course",w:"The Remove phase is complete; nothing in the vignette suggests treatment failure."}],
+ a:1, concept:"5R order: Remove → Replace → Reinoculate → Repair → Rebalance. Fecal elastase under 200 µg/g points to the Replace step.", ref:"Ref: pending clinical review"},
+
+{id:"G2",module:"GI",topic:"Breath testing",diff:"Moderate",
+ stem:"A patient with chronic constipation and bloating completes a lactulose breath test showing <span class=\"lab\">methane 14 ppm</span> at any point during the test, with no significant hydrogen rise. Which finding best explains this result?",
+ options:[
+  {t:"Hydrogen sulfide–dominant overgrowth",w:"Hydrogen sulfide overgrowth is more associated with diarrhea and is not measured by standard H₂/CH₄ breath tests."},
+  {t:"Intestinal methanogen overgrowth, usually Methanobrevibacter smithii",w:"Correct. Methane ≥10 ppm at any time defines intestinal methanogen overgrowth (IMO). Methane slows transit, which fits constipation."},
+  {t:"Small intestinal fungal overgrowth",w:"Fungal overgrowth is not diagnosed by breath methane."},
+  {t:"Lactose intolerance",w:"Lactose intolerance is assessed with a lactose substrate and shows a hydrogen rise, not isolated methane."}],
+ a:1, concept:"Methane ≥10 ppm = IMO, constipation-predominant. Methanogens are archaea, not bacteria, which is why the term changed from methane SIBO.", ref:"Ref: Pimentel M, et al. ACG Clinical Guideline: SIBO. Am J Gastroenterol. 2020;115:165–178."},
+
+{id:"H1",module:"Hormones",topic:"Estrogen metabolism",diff:"Hard",
+ stem:"A 46-year-old woman with a strong family history of breast cancer has dried urine hormone testing showing a high proportion of <span class=\"lab\">4-OH-E1</span> and a low <span class=\"lab\">2-MeO-E1 / 2-OH-E1</span> ratio. Which intervention most directly reduces the genotoxic potential of this pattern?",
+ options:[
+  {t:"Support COMT methylation with magnesium and methyl donors",w:"Correct. COMT methylates catechol estrogens to their methoxy forms, which keeps 4-OH estrogens from oxidizing to DNA-damaging quinones. A low methylation ratio indicates this step is lagging."},
+  {t:"Start transdermal progesterone",w:"Progesterone may balance estrogen effects at the receptor but does not change catechol estrogen clearance."},
+  {t:"Add DHEA 25 mg daily",w:"DHEA can aromatize to estrogens and could add substrate to the pathway."},
+  {t:"Increase CYP1B1 activity",w:"CYP1B1 is the enzyme that produces 4-OH estrogens; increasing it would worsen the pattern."}],
+ a:0, concept:"Phase I: CYP1A1 → 2-OH (protective), CYP1B1 → 4-OH (genotoxic), CYP3A4 → 16α-OH (proliferative). Phase II COMT methylation neutralizes catechols. Also support glutathione and NQO1 for quinone clearance.", ref:"Ref: pending clinical review"},
+
+{id:"H2",module:"Hormones",topic:"Thyroid conversion",diff:"Moderate",
+ stem:"A 41-year-old executive working 70-hour weeks on a calorie-restricted diet reports cold intolerance and fatigue. Labs: <span class=\"lab\">TSH 1.9 mIU/L</span>, <span class=\"lab\">free T4 1.3 ng/dL</span>, <span class=\"lab\">free T3 2.4 pg/mL</span> (low), <span class=\"lab\">reverse T3 elevated</span>. What best explains this pattern?",
+ options:[
+  {t:"Primary hypothyroidism",w:"Primary hypothyroidism raises TSH and lowers free T4. Both are normal here."},
+  {t:"Central (pituitary) hypothyroidism",w:"Central disease typically shows low or inappropriately normal TSH with low free T4, which is not this picture."},
+  {t:"Stress and caloric restriction shifting deiodinase activity toward reverse T3",w:"Correct. Cortisol and energy deficit reduce type 1 deiodinase and increase type 3, shunting T4 to reverse T3 and lowering free T3 despite a normal TSH."},
+  {t:"Early Hashimoto thyroiditis",w:"Hashimoto would be confirmed by TPO or thyroglobulin antibodies and usually shows TSH changes first."}],
+ a:2, concept:"Normal TSH and free T4 with low free T3 and high reverse T3 points to a peripheral conversion problem. Look at stress, under-eating, illness, and inflammation.", ref:"Ref: pending clinical review"},
+
+{id:"B1",module:"Biotransformation",topic:"Enterohepatic recirculation",diff:"Moderate",
+ stem:"A patient with heavy menses and breast tenderness has stool testing showing elevated <span class=\"lab\">β-glucuronidase</span>. Which supplement most directly addresses the mechanism linking this finding to her estrogen excess?",
+ options:[
+  {t:"Calcium D-glucarate",w:"Correct. D-glucarate converts to D-glucaro-1,4-lactone, which inhibits β-glucuronidase, so glucuronidated estrogens stay conjugated and leave in the stool."},
+  {t:"N-acetylcysteine",w:"NAC supports glutathione conjugation but does not stop gut deconjugation of glucuronides."},
+  {t:"Milk thistle",w:"Silymarin supports hepatocytes but does not target bacterial β-glucuronidase."},
+  {t:"Diindolylmethane (DIM)",w:"DIM shifts Phase I toward 2-OH estrogens; it does not prevent reabsorption."}],
+ a:0, concept:"Gut β-glucuronidase cleaves conjugated estrogens and lets them be reabsorbed. Address with D-glucarate, fiber, and microbiome support.", ref:"Ref: pending clinical review"},
+
+{id:"B2",module:"Biotransformation",topic:"Phase II induction",diff:"Easy",
+ stem:"Sulforaphane from broccoli sprouts is often recommended to support biotransformation. What is its primary mechanism?",
+ options:[
+  {t:"Inhibits CYP3A4 activity",w:"Sulforaphane is not known as a meaningful CYP3A4 inhibitor; grapefruit compounds are the classic example."},
+  {t:"Activates Nrf2, upregulating antioxidant and Phase II enzymes via the ARE",w:"Correct. Sulforaphane modifies Keap1 and frees Nrf2 to bind the antioxidant response element, inducing glutathione S-transferases, NQO1, and glutathione synthesis."},
+  {t:"Activates NF-κB signaling",w:"Sulforaphane tends to dampen NF-κB, not activate it."},
+  {t:"Directly chelates heavy metals",w:"Sulforaphane is not a chelator, though Nrf2-driven glutathione supports metal excretion indirectly."}],
+ a:1, concept:"Nrf2/Keap1/ARE is the master switch for Phase II and antioxidant gene expression. Know the inducers: sulforaphane, curcumin, EGCG, resveratrol.", ref:"Ref: pending clinical review"},
+
+{id:"E1",module:"Energy",topic:"Drug–nutrient depletion",diff:"Easy",
+ stem:"A 63-year-old man started atorvastatin 3 months ago and now reports diffuse muscle aches with a normal CK. Which nutrient depletion is most directly linked to the statin’s mechanism?",
+ options:[
+  {t:"Magnesium",w:"Magnesium depletion is linked to PPIs and diuretics, not to HMG-CoA reductase inhibition."},
+  {t:"Coenzyme Q10",w:"Correct. CoQ10 is made through the mevalonate pathway that statins block. Lower CoQ10 can impair mitochondrial electron transport in muscle."},
+  {t:"Vitamin B12",w:"B12 depletion is linked to metformin and acid suppressants."},
+  {t:"Carnitine",w:"Carnitine depletion is linked to valproate, not statins."}],
+ a:1, concept:"Statins block HMG-CoA reductase upstream of both cholesterol and CoQ10 synthesis. Evidence for CoQ10 relieving statin myalgia is mixed but favorable in meta-analysis.", ref:"Ref: Qu H, et al. CoQ10 and statin-associated muscle symptoms. J Am Heart Assoc. 2018;7:e009835."},
+
+{id:"E2",module:"Energy",topic:"Organic acids",diff:"Moderate",
+ stem:"A vegan patient with fatigue and paresthesias has a normal serum B12. Which organic acid finding most strongly suggests a functional B12 deficiency?",
+ options:[
+  {t:"Elevated methylmalonic acid",w:"Correct. Methylmalonyl-CoA mutase needs adenosylcobalamin. Elevated MMA reflects tissue-level B12 insufficiency even when serum B12 looks normal."},
+  {t:"Elevated pyruvate and lactate",w:"These point to reduced pyruvate dehydrogenase activity (B1, B2, B3, B5, lipoic acid) or mitochondrial dysfunction."},
+  {t:"Elevated xanthurenic acid",w:"Xanthurenate is a marker of B6 insufficiency in tryptophan metabolism."},
+  {t:"Elevated adipate and suberate",w:"These suggest impaired fatty acid β-oxidation, often linked to carnitine or B2."}],
+ a:0, concept:"Map organic acids to cofactors: MMA → B12; xanthurenate → B6; FIGlu → folate; pyruvate/lactate → PDH cofactors; adipate/suberate → carnitine and B2.", ref:"Ref: pending clinical review"},
+
+{id:"I1",module:"Immune",topic:"T-cell balance",diff:"Moderate",
+ stem:"In a patient with an autoimmune condition, which nutrient most directly promotes differentiation of regulatory T cells (Tregs) and dampens Th17 responses?",
+ options:[
+  {t:"Vitamin D (calcitriol)",w:"Correct. Calcitriol acts on VDR in dendritic cells and T cells to favor Treg development and suppress IL-17 production."},
+  {t:"Iron",w:"Iron is required for immune function but is not a Treg-skewing nutrient, and excess iron can be pro-oxidant."},
+  {t:"Arachidonic acid",w:"Arachidonic acid is a precursor for pro-inflammatory eicosanoids."},
+  {t:"Interleukin-6 signaling",w:"IL-6 with TGF-β drives Th17 differentiation, the opposite effect."}],
+ a:0, concept:"TGF-β alone → Treg; TGF-β plus IL-6 → Th17. Vitamin D, butyrate, and retinoic acid tilt toward tolerance.", ref:"Ref: pending clinical review"},
+
+{id:"C1",module:"Cardiometabolic",topic:"Insulin resistance",diff:"Moderate",
+ stem:"All four patients below have a fasting glucose under 95 mg/dL. Which profile most strongly suggests early insulin resistance?",
+ options:[
+  {t:"Fasting insulin 4 µIU/mL, TG 70 mg/dL, HDL 65 mg/dL",w:"Low insulin with a TG/HDL ratio near 1 suggests good insulin sensitivity."},
+  {t:"Fasting insulin 18 µIU/mL, TG 190 mg/dL, HDL 36 mg/dL",w:"Correct. Elevated fasting insulin shows compensatory hyperinsulinemia, and a TG/HDL ratio above 3 (here about 5.3) is a validated surrogate for insulin resistance."},
+  {t:"Fasting insulin 6 µIU/mL, TG 110 mg/dL, HDL 55 mg/dL",w:"Insulin and TG/HDL ratio (2.0) are both in a favorable range."},
+  {t:"Fasting insulin 7 µIU/mL, LDL 165 mg/dL, HDL 60 mg/dL",w:"Elevated LDL alone is not a marker of insulin resistance."}],
+ a:1, concept:"Glucose is the last marker to rise. Fasting insulin, HOMA-IR, and TG/HDL ratio detect insulin resistance years earlier.", ref:"Ref: pending clinical review"},
+
+{id:"C2",module:"Cardiometabolic",topic:"Lipoprotein(a)",diff:"Easy",
+ stem:"A 44-year-old with a father who had an MI at 49 has <span class=\"lab\">Lp(a) 180 nmol/L</span>. Which statement about Lp(a) is most accurate?",
+ options:[
+  {t:"It responds strongly to a low-saturated-fat diet",w:"Diet has minimal effect on Lp(a)."},
+  {t:"It is largely genetically determined and generally needs to be measured only once",w:"Correct. Lp(a) levels are mostly set by the LPA gene and stay stable through life, so one measurement is usually enough."},
+  {t:"Statins reliably lower it by about 50%",w:"Statins do not lower Lp(a) and may raise it slightly."},
+  {t:"Levels above 50 nmol/L are considered optimal",w:"Risk rises with level; values above roughly 105–125 nmol/L are generally considered high risk."}],
+ a:1, concept:"Lp(a) is a genetic, independent ASCVD risk factor. Measure once, then manage all other modifiable risk more aggressively.", ref:"Ref: Kronenberg F, et al. EAS consensus statement on Lp(a). Eur Heart J. 2022;43:3925–3946."}
+];
+
+/* ---------- storage (best effort) ---------- */
+const KEY="rootwise-v1";
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{hist:{}}}catch(e){return {hist:{}}}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){}}
+let store=load(); // hist[id] = {seen, correct, lastWrong:bool}
+
+function record(id,ok){
+  const h=store.hist[id]||{seen:0,correct:0,lastWrong:false};
+  h.seen++; if(ok)h.correct++; h.lastWrong=!ok; store.hist[id]=h; save();
+}
+const missedIds=()=>Q.filter(q=>store.hist[q.id]&&store.hist[q.id].lastWrong).map(q=>q.id);
+
+/* ---------- state ---------- */
+let cfg={mode:"tutor",mods:new Set(MODULES),count:10};
+let S=null, timerId=null;
+const app=document.getElementById("app");
+const L="ABCDE";
+const esc=s=>String(s);
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function fmt(s){s=Math.max(0,s);return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+
+/* ---------- home ---------- */
+function home(){
+  clearInterval(timerId);
+  const ids=Object.keys(store.hist);
+  const seen=ids.reduce((n,k)=>n+store.hist[k].seen,0);
+  const corr=ids.reduce((n,k)=>n+store.hist[k].correct,0);
+  const acc=seen?Math.round(corr/seen*100)+"%":"—";
+  const miss=missedIds().length;
+  const modRows=MODULES.map(m=>{
+    const qs=Q.filter(q=>q.module===m);
+    let s=0,c=0; qs.forEach(q=>{const h=store.hist[q.id];if(h){s+=h.seen;c+=h.correct}});
+    const p=s?Math.round(c/s*100):null;
+    const cls=p===null?"":p<60?"low":p<80?"mid":"";
+    return `<div class="mod"><span>${m} <span class="hint">· ${qs.length} q</span></span><div class="bar"><i class="${cls}" style="width:${p??0}%"></i></div><span class="pct">${p===null?"not started":p+"%"}</span></div>`;
+  }).join("");
+  const avail=Q.filter(q=>cfg.mods.has(q.module)).length;
+  app.innerHTML=`
+  <section class="stack">
+    <div>
+      <h1>Practice like it’s exam day. Learn from every miss.</h1>
+      <p class="lede">Clinical-vignette questions across the functional medicine core modules. Tutor mode explains every answer choice, right and wrong. Exam mode runs on the clock.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>${seen}</b><small>Questions answered</small></div>
+      <div class="stat"><b>${acc}</b><small>Overall accuracy</small></div>
+      <div class="stat"><b>${miss}</b><small>In your missed queue</small></div>
+    </div>
+    <div class="panel stack">
+      <h2>Build a session</h2>
+      <div>
+        <label class="lbl">Mode</label>
+        <div class="seg" role="group" aria-label="Mode">
+          <button type="button" id="m-tutor" aria-pressed="${cfg.mode==="tutor"}">Tutor</button>
+          <button type="button" id="m-exam" aria-pressed="${cfg.mode==="exam"}">Timed exam</button>
+        </div>
+        <p class="hint" style="margin:8px 0 0">${cfg.mode==="tutor"?"Rationale for every option appears after each answer. Untimed.":"90 seconds per question, no feedback until you finish. Flag and revisit questions."}</p>
+      </div>
+      <div>
+        <label class="lbl">Modules</label>
+        <div class="chips">${MODULES.map(m=>`<button type="button" class="chip" data-mod="${m}" aria-pressed="${cfg.mods.has(m)}">${m}</button>`).join("")}</div>
+      </div>
+      <div class="row">
+        <div>
+          <label class="lbl" for="count">Questions</label>
+          <select id="count">${[5,10,20,50].map(n=>`<option value="${n}" ${cfg.count===n?"selected":""}>${n}</option>`).join("")}</select>
+        </div>
+        <span class="hint" style="align-self:end">${avail} available in selected modules</span>
+      </div>
+      <div class="row">
+        <button class="btn" id="start" type="button" ${avail?"":"disabled"}>Start session</button>
+        <button class="btn ghost" id="review" type="button" ${miss?"":"disabled"}>Review missed (${miss})</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Performance by module</h2>
+      <div class="mods">${modRows}</div>
+    </div>
+  </section>`;
+  document.getElementById("m-tutor").onclick=()=>{cfg.mode="tutor";home()};
+  document.getElementById("m-exam").onclick=()=>{cfg.mode="exam";home()};
+  app.querySelectorAll("[data-mod]").forEach(b=>b.onclick=()=>{const m=b.dataset.mod;cfg.mods.has(m)?cfg.mods.delete(m):cfg.mods.add(m);home()});
+  document.getElementById("count").onchange=e=>{cfg.count=+e.target.value};
+  document.getElementById("start").onclick=()=>start(shuffle(Q.filter(q=>cfg.mods.has(q.module))).slice(0,cfg.count),cfg.mode);
+  document.getElementById("review").onclick=()=>start(shuffle(Q.filter(q=>missedIds().includes(q.id))),"tutor");
+}
+
+/* ---------- session ---------- */
+function start(qs,mode){
+  S={qs,mode,i:0,ans:{},submitted:{},flags:new Set(),left:qs.length*90};
+  clearInterval(timerId);
+  if(mode==="exam"){timerId=setInterval(()=>{S.left--;const t=document.getElementById("timer");if(t){t.textContent=fmt(S.left);t.classList.toggle("low",S.left<60)}if(S.left<=0)finish()},1000)}
+  render();
+}
+
+function render(){
+  const q=S.qs[S.i], n=S.qs.length, mine=S.ans[q.id], done=S.mode==="tutor"&&S.submitted[q.id];
+  const opts=q.options.map((o,k)=>{
+    let cls="opt";
+    if(done){ if(k===q.a)cls+=" right"; else if(k===mine)cls+=" wrong"; }
+    else if(k===mine)cls+=" sel";
+    return `<button type="button" class="${cls}" data-k="${k}" ${done?"disabled":""}><span class="L">${L[k]}</span><span>${esc(o.t)}${done?`<div class="why">${esc(o.w)}</div>`:""}</span></button>`;
+  }).join("");
+  let fb="";
+  if(done){
+    const ok=mine===q.a;
+    fb=`<div class="verdict">${ok?`<span class="pill good">Correct</span>`:`<span class="pill bad">Incorrect</span>`} <span>Answer: ${L[q.a]}</span></div>
+      <div class="concept"><b>Key concept</b>${esc(q.concept)}</div>
+      <p class="ref">${esc(q.ref)}</p>`;
+  }
+  const last=S.i===n-1;
+  let navR;
+  if(S.mode==="tutor"){
+    navR=done?`<button class="btn" id="next" type="button">${last?"See results":"Next question"}</button>`
+             :`<button class="btn" id="submit" type="button" ${mine===undefined?"disabled":""}>Submit answer</button>`;
+  } else {
+    navR=last?`<button class="btn" id="finish" type="button">Finish exam</button>`:`<button class="btn" id="next" type="button">Next</button>`;
+  }
+  const grid=S.mode==="exam"?`<div class="grid-nav" aria-label="Question navigator">${S.qs.map((x,k)=>`<button type="button" data-go="${k}" class="${S.ans[x.id]!==undefined?"done":""} ${k===S.i?"cur":""} ${S.flags.has(x.id)?"fl":""}" aria-label="Question ${k+1}">${k+1}</button>`).join("")}</div>`:"";
+  app.innerHTML=`
+  <section>
+    <div class="qhead">
+      <span class="tag">Question ${S.i+1} of ${n} · ${q.module} · ${q.topic} · ${q.diff}</span>
+      <div class="row">
+        ${S.mode==="exam"?`<span class="timer ${S.left<60?"low":""}" id="timer">${fmt(S.left)}</span>`:""}
+        <button type="button" class="flag" id="flag" aria-pressed="${S.flags.has(q.id)}">${S.flags.has(q.id)?"Flagged":"Flag"}</button>
+      </div>
+    </div>
+    <div class="progress"><i style="width:${(S.i+(done?1:0))/n*100}%"></i></div>
+    <p class="stem">${q.stem}</p>
+    <div class="opts">${opts}</div>
+    ${fb}
+    <div class="nav">
+      <div class="row">
+        <button class="btn ghost" id="quit" type="button">End session</button>
+        ${S.mode==="exam"&&S.i>0?`<button class="btn ghost" id="prev" type="button">Previous</button>`:""}
+      </div>
+      ${navR}
+    </div>
+    ${grid}
+  </section>`;
+  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{S.ans[q.id]=+b.dataset.k;render()});
+  const $=id=>document.getElementById(id);
+  $("flag").onclick=()=>{S.flags.has(q.id)?S.flags.delete(q.id):S.flags.add(q.id);render()};
+  $("quit").onclick=()=>finish();
+  if($("submit"))$("submit").onclick=()=>{S.submitted[q.id]=true;record(q.id,S.ans[q.id]===q.a);render()};
+  if($("next"))$("next").onclick=()=>{if(S.mode==="tutor"&&last)finish();else{S.i++;render();window.scrollTo(0,0)}};
+  if($("prev"))$("prev").onclick=()=>{S.i--;render()};
+  if($("finish"))$("finish").onclick=()=>finish();
+  app.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{S.i=+b.dataset.go;render()});
+}
+
+function finish(){
+  clearInterval(timerId);
+  if(S.mode==="exam") S.qs.forEach(q=>{if(S.ans[q.id]!==undefined)record(q.id,S.ans[q.id]===q.a)});
+  const scored=S.mode==="exam"?S.qs:S.qs.filter(q=>S.submitted[q.id]);
+  const right=scored.filter(q=>S.ans[q.id]===q.a).length;
+  const pct=scored.length?Math.round(right/scored.length*100):0;
+  const byMod={}; scored.forEach(q=>{const m=byMod[q.module]||(byMod[q.module]={n:0,c:0});m.n++;if(S.ans[q.id]===q.a)m.c++});
+  const modRows=Object.entries(byMod).map(([m,v])=>{const p=Math.round(v.c/v.n*100);return `<div class="mod"><span>${m}</span><div class="bar"><i class="${p<60?"low":p<80?"mid":""}" style="width:${p}%"></i></div><span class="pct">${v.c}/${v.n}</span></div>`}).join("");
+  const items=scored.map((q,k)=>{
+    const mine=S.ans[q.id], ok=mine===q.a;
+    return `<details class="ritem ${ok?"":"miss"}"><summary><span class="pill ${ok?"good":"bad"}">${ok?"Right":mine===undefined?"Blank":"Missed"}</span><span class="t">${q.topic} <span class="hint">· ${q.module}</span></span></summary>
+      <p class="stem" style="margin-top:12px">${q.stem}</p>
+      <div class="opts">${q.options.map((o,j)=>`<div class="opt ${j===q.a?"right":j===mine?"wrong":""}"><span class="L">${L[j]}</span><span>${esc(o.t)}<div class="why">${esc(o.w)}</div></span></div>`).join("")}</div>
+      <div class="concept"><b>Key concept</b>${esc(q.concept)}</div><p class="ref">${esc(q.ref)}</p></details>`;
+  }).join("");
+  app.innerHTML=`
+  <section class="stack">
+    <div class="panel">
+      <span class="tag">${S.mode==="exam"?"Timed exam":"Tutor session"} complete</span>
+      <div class="row" style="margin-top:8px;align-items:baseline">
+        <span class="score">${pct}%</span><span class="hint">${right} of ${scored.length} correct${S.mode==="exam"?` · ${fmt(S.qs.length*90-Math.max(0,S.left))} used`:""}</span>
+      </div>
+    </div>
+    ${modRows?`<div class="panel"><h2>By module</h2><div class="mods">${modRows}</div></div>`:""}
+    <div><h2>Review every question</h2><div class="rlist">${items||`<p class="hint">No questions answered.</p>`}</div></div>
+    <div class="row"><button class="btn" id="home" type="button">Back to dashboard</button>${missedIds().length?`<button class="btn ghost" id="rev" type="button">Review missed (${missedIds().length})</button>`:""}</div>
+  </section>`;
+  document.getElementById("home").onclick=home;
+  const r=document.getElementById("rev"); if(r)r.onclick=()=>start(shuffle(Q.filter(q=>missedIds().includes(q.id))),"tutor");
+  window.scrollTo(0,0);
+}
+
+document.getElementById("brand").onclick=home;
+home();
+</script>
+</body>
+</html>

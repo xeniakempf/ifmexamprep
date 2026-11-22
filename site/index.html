@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IFM Exam Prep Waitlist</title>
+<meta name="description" content="Clinical-vignette practice questions, timed exam simulation, and module study guides for functional medicine certification candidates. Join the waitlist for early access.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: split hero (pitch left, live sample question right), then a quiet single column. Boldness lives in the live question. */
+:root{
+  --bg:#f4f6f5; --surface:#ffffff; --ink:#17211f; --muted:#5b6865; --line:#dbe2e0;
+  --accent:#0d6b57; --accent-soft:#e1f0eb; --deep:#0c2621; --on-deep:#e8f2ef;
+  --good:#1f7a3f; --good-soft:#e3f3e7; --bad:#b3372b; --bad-soft:#fae6e3;
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#101614; --surface:#172120; --ink:#e7eeec; --muted:#9aa9a5; --line:#2b3836;
+    --accent:#4cc3a3; --accent-soft:#183a32; --deep:#0a1d19; --on-deep:#e8f2ef;
+    --good:#5fcf86; --good-soft:#173524; --bad:#f08a7d; --bad-soft:#3b1d1a; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101614; --surface:#172120; --ink:#e7eeec; --muted:#9aa9a5; --line:#2b3836;
+  --accent:#4cc3a3; --accent-soft:#183a32; --deep:#0a1d19; --on-deep:#e8f2ef;
+  --good:#5fcf86; --good-soft:#173524; --bad:#f08a7d; --bad-soft:#3b1d1a; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
+a{color:var(--accent)}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+nav.top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 0}
+.brand{font-family:var(--display);font-weight:800;font-size:1.2rem;letter-spacing:-.02em;text-decoration:none;color:var(--ink)}
+.brand span{color:var(--accent)}
+.navcta{font-weight:600;text-decoration:none;border:1px solid var(--accent);padding:7px 14px;border-radius:8px}
+.eyebrow{font-family:var(--mono);font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(2.1rem,5.4vw,3.6rem);line-height:1.03;letter-spacing:-.035em;margin:12px 0 18px;text-wrap:balance}
+h1 em{font-style:normal;color:var(--accent)}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(1.5rem,3.2vw,2.1rem);letter-spacing:-.025em;line-height:1.15;margin:0 0 14px;text-wrap:balance}
+h3{font-family:var(--display);font-weight:700;font-size:1.08rem;margin:0 0 6px}
+.lede{font-size:1.1rem;color:var(--muted);max-width:52ch;margin:0 0 26px}
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:48px;align-items:start;padding:36px 0 72px}
+.btn{display:inline-block;border:1px solid var(--accent);background:var(--accent);color:var(--surface);padding:12px 20px;border-radius:8px;font-weight:600;cursor:pointer;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--accent)}
+.ticks{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:8px;font-size:.95rem}
+.ticks li{display:grid;grid-template-columns:18px 1fr;gap:10px}
+.ticks li::before{content:"";width:10px;height:10px;margin-top:7px;border-radius:2px;background:var(--accent)}
+/* sample question card */
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px;box-shadow:0 18px 40px -24px rgba(12,38,33,.35)}
+.qmeta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px}
+.stem{margin:0 0 14px;font-size:.98rem}
+.lab{font-family:var(--mono);font-size:.88rem;background:var(--accent-soft);padding:1px 5px;border-radius:4px}
+.opts{display:grid;gap:8px}
+.opt{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;text-align:left;width:100%;padding:10px 12px;border:1px solid var(--line);border-left:4px solid var(--line);border-radius:8px;background:var(--surface);cursor:pointer;font-size:.93rem}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt .L{font-family:var(--mono);width:24px;height:24px;display:grid;place-items:center;border:1px solid var(--line);border-radius:5px;font-size:.78rem}
+.opt:disabled{cursor:default}
+.opt.right{border-left-color:var(--good);background:var(--good-soft)}
+.opt.right .L{background:var(--good);border-color:var(--good);color:var(--surface)}
+.opt.wrong{border-left-color:var(--bad);background:var(--bad-soft)}
+.opt.wrong .L{background:var(--bad);border-color:var(--bad);color:var(--surface)}
+.why{font-size:.85rem;margin-top:4px}
+.qfoot{margin-top:12px;font-size:.85rem;color:var(--muted);min-height:1.4em}
+.concept{border-left:3px solid var(--accent);background:var(--accent-soft);padding:8px 12px;border-radius:0 8px 8px 0;font-size:.88rem;margin-top:12px}
+/* sections */
+section.band{padding:72px 0;border-top:1px solid var(--line)}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:30px}
+.feat .n{font-family:var(--mono);font-size:.78rem;color:var(--accent);display:block;margin-bottom:8px}
+.feat p{margin:0;color:var(--muted);font-size:.95rem}
+.modules{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.modules span{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-size:.9rem}
+.signup{background:var(--deep);color:var(--on-deep);border-radius:16px;padding:44px;display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:start}
+.signup h2{color:var(--on-deep)}
+.signup p{color:color-mix(in srgb,var(--on-deep) 75%,transparent);margin:0}
+form{display:grid;gap:14px}
+.field label{display:block;font-size:.82rem;margin-bottom:5px;color:color-mix(in srgb,var(--on-deep) 80%,transparent)}
+.field input,.field select{width:100%;padding:11px 12px;border-radius:8px;border:1px solid color-mix(in srgb,var(--on-deep) 25%,transparent);background:color-mix(in srgb,var(--on-deep) 8%,transparent);color:var(--on-deep)}
+.field select option{color:#17211f}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.signup .btn{background:#4cc3a3;border-color:#4cc3a3;color:#0c2621;width:100%;font-size:1.02rem}
+.fine{font-size:.8rem;color:color-mix(in srgb,var(--on-deep) 65%,transparent)}
+.msg{border-radius:8px;padding:12px 14px;font-size:.95rem}
+.msg.ok{background:#173524;color:#c9f0d6}
+.msg.err{background:#3b1d1a;color:#ffd5cf}
+.hidden{display:none}
+.about{display:grid;grid-template-columns:1fr 2fr;gap:40px}
+.faq{display:grid;gap:10px;max-width:760px}
+details{border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:14px 16px}
+summary{cursor:pointer;font-weight:600}
+details p{margin:10px 0 0;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:28px 0 48px;font-size:.82rem;color:var(--muted)}
+footer p{max-width:80ch;margin:0 0 8px}
+@media (max-width:860px){
+  .hero,.signup,.about{grid-template-columns:1fr}
+  .features{grid-template-columns:1fr 1fr}
+  .signup{padding:28px}
+}
+@media (max-width:520px){
+  .features,.two{grid-template-columns:1fr}
+  nav.top .navcta{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="top">
+    <a class="brand" href="#top">IFM<span>examprep</span></a>
+    <a class="navcta" href="#waitlist">Join the waitlist</a>
+  </nav>
+
+  <header class="hero" id="top">
+    <div>
+      <span class="eyebrow">Functional medicine certification prep · coming soon</span>
+      <h1>Practice the way the exam thinks. <em>Learn from every miss.</em></h1>
+      <p class="lede">Clinical-vignette questions, timed exam simulations, and module study guides built for functional medicine certification candidates. Every answer choice is explained, so the wrong ones teach as much as the right one.</p>
+      <a class="btn" href="#waitlist">Get early access</a>
+      <ul class="ticks">
+        <li>Rationale for every option, right and wrong</li>
+        <li>Timed full-length and module-level practice exams</li>
+        <li>Performance tracking that points you to weak areas</li>
+      </ul>
+    </div>
+
+    <div class="qcard" aria-label="Sample practice question">
+      <div class="qmeta"><span>Try a sample question</span><span>GI · Breath testing</span></div>
+      <p class="stem">A patient with chronic constipation and bloating completes a lactulose breath test showing <span class="lab">methane 14 ppm</span>, with no significant hydrogen rise. Which finding best explains this result?</p>
+      <div class="opts" id="opts"></div>
+      <div class="qfoot" id="qfoot">Pick an answer to see the explanation for every option.</div>
+    </div>
+  </header>
+</div>
+
+<section class="band">
+  <div class="wrap">
+    <span class="eyebrow">What you get</span>
+    <h2>Built around how clinicians actually study</h2>
+    <div class="features">
+      <div class="feat"><span class="n">01</span><h3>Tutor mode</h3><p>Answer, then see why the correct choice is correct and exactly why each distractor falls short, with a key-concept summary.</p></div>
+      <div class="feat"><span class="n">02</span><h3>Timed exam simulation</h3><p>Work on the clock, flag questions to revisit, and get a full review with a breakdown by module when you finish.</p></div>
+      <div class="feat"><span class="n">03</span><h3>Module study guides</h3><p>High-yield summaries of frameworks, mechanisms, lab interpretation, and intervention hierarchies, with comparison tables for concepts that are easy to confuse.</p></div>
+      <div class="feat"><span class="n">04</span><h3>Missed-question review</h3><p>Questions you get wrong come back until you get them right.</p></div>
+      <div class="feat"><span class="n">05</span><h3>Performance by module</h3><p>See where you are strong and where to spend your next study hour.</p></div>
+      <div class="feat"><span class="n">06</span><h3>Web and mobile</h3><p>Study at your desk or between patients. Your progress follows you.</p></div>
+    </div>
+    <div class="modules" aria-label="Topics covered">
+      <span>Foundations &amp; the Matrix</span><span>GI</span><span>Hormones</span><span>Biotransformation</span><span>Energy</span><span>Immune</span><span>Cardiometabolic</span>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="waitlist">
+  <div class="wrap">
+    <div class="signup">
+      <div>
+        <span class="eyebrow" style="color:#4cc3a3">Waitlist</span>
+        <h2>Be first in when it opens</h2>
+        <p>Join the list and you will get one email when the question bank and study guides launch, plus early access before public release.</p>
+      </div>
+      <div>
+        <form name="waitlist" method="POST" data-netlify="true" netlify-honeypot="company" id="wl">
+          <input type="hidden" name="form-name" value="waitlist">
+          <p class="hidden"><label for="company">Leave this empty</label><input id="company" name="company" tabindex="-1" autocomplete="off"></p>
+          <div class="two">
+            <div class="field"><label for="fname">First name</label><input id="fname" name="first_name" autocomplete="given-name"></div>
+            <div class="field"><label for="email">Email (required)</label><input id="email" name="email" type="email" required autocomplete="email"></div>
+          </div>
+          <div class="two">
+            <div class="field"><label for="role">Your credential</label>
+              <select id="role" name="credential">
+                <option value="">Select</option><option>MD / DO</option><option>NP / PA</option><option>DC</option><option>ND</option><option>RD / Nutritionist</option><option>RN</option><option>Other</option>
+              </select></div>
+            <div class="field"><label for="when">Planning to sit the exam</label>
+              <select id="when" name="exam_timing">
+                <option value="">Select</option><option>Within 3 months</option><option>3–6 months</option><option>6–12 months</option><option>Still deciding</option>
+              </select></div>
+          </div>
+          <button class="btn" type="submit" id="go">Join the waitlist</button>
+          <div class="msg ok hidden" id="ok" role="status">You’re on the list. We’ll email you when it launches.</div>
+          <div class="msg err hidden" id="err" role="alert">That didn’t go through. Check your connection and try again.</div>
+          <p class="fine">Launch updates only. No spam, and you can unsubscribe anytime.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap about">
+    <div>
+      <span class="eyebrow">Who’s behind it</span>
+      <h2>Written by a practicing clinician</h2>
+    </div>
+    <div>
+      <p style="margin-top:0">Built by Xenia Kempf, MSN, APRN, FNP-C, a functional medicine nurse practitioner in Austin, Texas, who completed the full functional medicine curriculum and builds clinical tools for practitioners.</p>
+      <p>Every question is an original clinical vignette written to the competencies the certification covers, reviewed for clinical accuracy and referenced to the literature where it applies.</p>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <span class="eyebrow">Questions</span>
+    <h2>FAQ</h2>
+    <div class="faq">
+      <details><summary>Is this affiliated with The Institute for Functional Medicine?</summary><p>No. This is an independent study resource. It is not affiliated with, endorsed by, or sponsored by The Institute for Functional Medicine.</p></details>
+      <details><summary>Are these real exam questions?</summary><p>No. Every question is original and written to test the same clinical reasoning. Nothing is drawn from the actual certification exam.</p></details>
+      <details><summary>When does it launch?</summary><p>We are building the question bank and study guides now. Waitlist members hear first and get access before the public launch.</p></details>
+      <details><summary>Who is it for?</summary><p>Clinicians preparing for functional medicine certification, and anyone who has finished the coursework and wants to test and strengthen their clinical reasoning.</p></details>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>IFMexamprep.com is an independent educational resource and is not affiliated with, endorsed by, or sponsored by The Institute for Functional Medicine. IFM and IFCP are marks of their respective owner, used here only to describe the exam this resource prepares for.</p>
+    <p>© 2026 Healthify LLC</p>
+  </div>
+</footer>
+
+<script>
+/* sample question */
+const opts=[
+ ["Hydrogen sulfide–dominant overgrowth","Hydrogen sulfide overgrowth is more associated with diarrhea and is not measured by standard H₂/CH₄ breath tests."],
+ ["Intestinal methanogen overgrowth, usually Methanobrevibacter smithii","Correct. Methane ≥10 ppm at any point defines intestinal methanogen overgrowth (IMO). Methane slows transit, which fits constipation."],
+ ["Small intestinal fungal overgrowth","Fungal overgrowth is not diagnosed by breath methane."],
+ ["Lactose intolerance","Lactose intolerance uses a lactose substrate and shows a hydrogen rise, not isolated methane."]
+];
+const A=1, box=document.getElementById("opts");
+function draw(pick){
+  box.innerHTML=opts.map((o,i)=>{
+    const done=pick!==undefined, cls=done?(i===A?"right":i===pick?"wrong":""):"";
+    return `<button type="button" class="opt ${cls}" data-i="${i}" ${done?"disabled":""}><span class="L">${"ABCD"[i]}</span><span>${o[0]}${done?`<div class="why">${o[1]}</div>`:""}</span></button>`;
+  }).join("");
+  box.querySelectorAll(".opt").forEach(b=>b.onclick=()=>draw(+b.dataset.i));
+  if(pick!==undefined){
+    document.getElementById("qfoot").innerHTML=`<div class="concept"><strong>Key concept:</strong> methane ≥10 ppm means IMO, which is constipation-predominant. Methanogens are archaea, which is why the term changed from “methane SIBO.”</div><p style="margin:10px 0 0">${pick===A?"Nice.":"Not quite, but now you know why."} The full bank works like this for every question. <a href="#waitlist">Join the waitlist</a></p>`;
+  }
+}
+draw();
+
+/* waitlist: Netlify Forms via AJAX on the live site; demo message elsewhere */
+const form=document.getElementById("wl"), ok=document.getElementById("ok"), err=document.getElementById("err"), go=document.getElementById("go");
+const live=/ifmexamprep\.com$|netlify\.app$/i.test(location.hostname);
+form.addEventListener("submit",async e=>{
+  e.preventDefault();
+  ok.classList.add("hidden"); err.classList.add("hidden");
+  if(!form.checkValidity()){form.reportValidity();return}
+  go.disabled=true; go.textContent="Joining…";
+  try{
+    if(live){
+      const r=await fetch("/",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:new URLSearchParams(new FormData(form)).toString()});
+      if(!r.ok) throw new Error(r.status);
+      ok.textContent="You’re on the list. We’ll email you when it launches.";
+    } else {
+      ok.textContent="Preview only: on IFMexamprep.com this saves your signup to the waitlist.";
+    }
+    ok.classList.remove("hidden"); form.reset();
+    go.textContent="You’re in";
+  }catch(x){
+    err.classList.remove("hidden"); go.disabled=false; go.textContent="Join the waitlist";
+  }
+});
+</script>
+</body>
+</html>
